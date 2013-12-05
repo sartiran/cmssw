@@ -1,20 +1,19 @@
 <var name="TEST_COMMENT" value="">
-<var name="TEST_NEW" value="7_0_0_pre6">
-<var name="TEST_REF" value="7_0_0_pre5">
+<var name="TEST_NEW" value="7_0_0_pre9_correctedgedGsfE">
+<var name="TEST_REF" value="7_0_0_pre8_amend">
 
-<var name="TAG_STARTUP" value="PRE_ST62_V8">
-<var name="TAG_IDEAL" value="PRE_ST62_V8">
-<var name="DATA_VERSION" value="v1">
+<var name="TAG_STARTUP" value="START70_V2">
+<var name="DATA_VERSION" value="v4">
 
 TAG for the REFERENCE DATA, USED ONLY FOR INFORMATION ON WEB PAGE
-<var name="DD_COND_REF" value="PRE_ST62_V8-v1">
+<var name="DD_COND_REF" value="PRE_ST62_V8-v2">
 
 <var name="DD_RELEASE" value="${CMSSW_VERSION}">
 
-<var name="STORE_DIR" value="/afs/cern.ch/cms/Physics/egamma/www/validation/Electrons/Store/${TEST_NEW}">
+<var name="STORE_DIR" value="/afs/cern.ch/cms/Physics/egamma/www/validation/Electrons/Test/${TEST_NEW}">
 <var name="STORE_REF" value="/afs/cern.ch/cms/Physics/egamma/www/validation/Electrons/Store/${TEST_REF}">
 
-<var name="WEB_DIR" value="/afs/cern.ch/cms/Physics/egamma/www/validation/Electrons/Releases">
+<var name="WEB_DIR" value="/afs/cern.ch/cms/Physics/egamma/www/validation/Electrons/Test">
 
 <!--var name="WEB_DIR" value="/afs/cern.ch/user/c/chamont/www/validation"-->
 <!--var name="WEB_URL" value="https://chamont.web.cern.ch/chamont/validation"-->
@@ -249,8 +248,7 @@ FullSim
       
       <target name="store" cmd='electronStore.py -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
       <target name="force" cmd='electronStore.py -f -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
-      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${TEST_NEW} -b ${TEST_REF} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs
-      ${TEST_REF} / ${DD_SAMPLE} / ${DD_COND_REF}" ${STORE_DIR}/${RED_FILE} ${STORE_REF}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/Full_${DD_SAMPLE}_gedGsfE_Startup'>
+      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${RED_FILE} -b ${BLUE_FILE} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs ${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND}" ${STORE_DIR}/${RED_FILE} ${STORE_DIR}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/Full_${DD_SAMPLE}_gedGsfE_Startup'>
 
     </environment>
 
@@ -272,8 +270,7 @@ FullSim
       
       <target name="store" cmd='electronStore.py -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
       <target name="force" cmd='electronStore.py -f -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
-      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${TEST_NEW} -b ${TEST_REF} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs
-      ${TEST_REF} / ${DD_SAMPLE} / ${DD_COND_REF}" ${STORE_DIR}/${RED_FILE} ${STORE_REF}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/Full_${DD_SAMPLE}_gedGsfE_Startup'>
+      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${RED_FILE} -b ${BLUE_FILE} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs ${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND}" ${STORE_DIR}/${RED_FILE} ${STORE_DIR}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/Full_${DD_SAMPLE}_gedGsfE_Startup'>
       
     </environment>
     
@@ -295,8 +292,7 @@ FullSim
       
       <target name="store" cmd='electronStore.py -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
       <target name="force" cmd='electronStore.py -f -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
-      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${TEST_NEW} -b ${TEST_REF} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs
-      ${TEST_REF} / ${DD_SAMPLE} / ${DD_COND_REF}" ${STORE_DIR}/${RED_FILE} ${STORE_REF}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/Full_${DD_SAMPLE}_gedGsfE_Startup'>
+      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${RED_FILE} -b ${BLUE_FILE} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs ${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND}" ${STORE_DIR}/${RED_FILE} ${STORE_DIR}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/Full_${DD_SAMPLE}_gedGsfE_Startup'>
 
     </environment>
 
@@ -318,8 +314,7 @@ FullSim
       
       <target name="store" cmd='electronStore.py -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
       <target name="force" cmd='electronStore.py -f -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
-      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${TEST_NEW} -b ${TEST_REF} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs
-      ${TEST_REF} / ${DD_SAMPLE} / ${DD_COND_REF}" ${STORE_DIR}/${RED_FILE} ${STORE_REF}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/Full_${DD_SAMPLE}_gedGsfE_Startup'>
+      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${RED_FILE} -b ${BLUE_FILE} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs ${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND}" ${STORE_DIR}/${RED_FILE} ${STORE_DIR}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/Full_${DD_SAMPLE}_gedGsfE_Startup'>
 
     </environment>
   
@@ -342,8 +337,7 @@ FullSim
       
       <target name="store" cmd='electronStore.py -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
       <target name="force" cmd='electronStore.py -f -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
-      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${TEST_NEW} -b ${TEST_REF} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs
-      ${TEST_REF} / ${DD_SAMPLE} / ${DD_COND_REF}" ${STORE_DIR}/${RED_FILE} ${STORE_REF}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/Full_${DD_SAMPLE}_gedGsfE_Startup'>
+      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${RED_FILE} -b ${BLUE_FILE} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs ${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND}" ${STORE_DIR}/${RED_FILE} ${STORE_DIR}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/Full_${DD_SAMPLE}_gedGsfE_Startup'>
   
     </environment>
 
@@ -371,8 +365,7 @@ FullSim
       
       <target name="store" cmd='electronStore.py -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
       <target name="force" cmd='electronStore.py -f -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
-      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${TEST_NEW} -b ${TEST_REF} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs
-      ${TEST_REF} / ${DD_SAMPLE} / ${DD_COND_REF}" ${STORE_DIR}/${RED_FILE} ${STORE_REF}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/Full_${DD_SAMPLE}_gedGsfE_Startup'>
+      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${RED_FILE} -b ${BLUE_FILE} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs ${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND}" ${STORE_DIR}/${RED_FILE} ${STORE_DIR}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/Full_${DD_SAMPLE}_gedGsfE_Startup'>
 
     </environment>  
   
@@ -441,8 +434,7 @@ FullSim
       
         <target name="store" cmd='electronStore.py -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
         <target name="force" cmd='electronStore.py -f -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
-	<target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${TEST_NEW} -b ${TEST_REF} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs
-      ${TEST_REF} / ${DD_SAMPLE} / ${DD_COND}" ${STORE_DIR}/${RED_FILE} ${STORE_REF}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/PileUp_${DD_SAMPLE}_gedGsfE_Startup'>
+	<target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${RED_FILE} -b ${BLUE_FILE} -t "${TEST_NEW} / gedGsfElectrons/ ${DD_SAMPLE} / ${DD_COND} vs ${TEST_NEW} / GsfElectrons/ ${DD_SAMPLE} / ${DD_COND}" ${STORE_DIR}/${RED_FILE} ${STORE_DIR}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/PileUp_${DD_SAMPLE}_gedGsfE_Startup'>
 
       </environment>
 
@@ -464,8 +456,8 @@ FullSim
       
       <target name="store" cmd='electronStore.py -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
       <target name="force" cmd='electronStore.py -f -r ${TEST_NEW} -m "${TEST_COMMENT}" -a ${VAL_ANALYZER}/${VAL_POST_ANALYZER} -c ${VAL_CONFIGURATION}/${VAL_POST_CONFIGURATION} ${TEST_HISTOS_FILE} ${TEST_OUTPUT_LOGS} ${STORE_DIR}'>
-      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${TEST_NEW} -b ${TEST_REF} -t "${TEST_NEW} / ${DD_SAMPLE} / ${DD_COND} vs
-      ${TEST_REF} / ${DD_SAMPLE} / ${DD_COND}" ${STORE_DIR}/${RED_FILE} ${STORE_REF}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/PileUp_${DD_SAMPLE}_gedGsfE_Startup'>
+      <target name="publish" cmd='electronCompare.py -c ${VAL_HISTOS} -r ${RED_FILE} -b ${BLUE_FILE} -t "${TEST_NEW} / gedGsfElectrons/ ${DD_SAMPLE} / ${DD_COND} vs
+      ${TEST_REF} / GsfElectrons/ ${DD_SAMPLE} / ${DD_COND}" ${STORE_DIR}/${RED_FILE} ${STORE_DIR}/${BLUE_FILE} ${WEB_DIR}/${TEST_NEW}/GfsVsGedGsf/PileUp_${DD_SAMPLE}_gedGsfE_Startup'>
 
     </environment>
   
