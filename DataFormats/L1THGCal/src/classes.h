@@ -7,6 +7,7 @@
 #include "DataFormats/L1THGCal/interface/HGCalMulticluster.h"
 #include "DataFormats/L1THGCal/interface/HGCalTower.h"
 #include "DataFormats/L1THGCal/interface/HGCalTriggerCell.h"
+#include "DataFormats/L1THGCal/interface/HGCalTriggerSums.h"
 
 #include "DataFormats/L1THGCal/interface/ClusterShapes.h"
 
@@ -27,20 +28,26 @@ namespace DataFormats {
 
     l1t::HGCalTowerBxCollection   hgcalTowerBxColl;
     l1t::HGCalTriggerCellBxCollection   hgcalTriggerCellBxColl;
+    l1t::HGCalTriggerSumsBxCollection   hgcalTriggerSumsBxColl;
     l1t::HGCalClusterBxCollection hgcalClusterBxColl;
     l1t::HGCalMulticlusterBxCollection hgcalMulticlusterBxColl;
     edm::Ptr<l1t::HGCalTriggerCell> hgcalTriggerCellPtr;
+    edm::Ptr<l1t::HGCalTriggerSums> hgcalTriggerSumsPtr;
     edm::Ptr<l1t::HGCalCluster> hgcalClusterPtr;
     edm::PtrVector<l1t::HGCalTriggerCell>  hgcalTriggerCellList;
+    edm::PtrVector<l1t::HGCalTriggerSums>  hgcalTriggerSumsList;
     edm::PtrVector<l1t::HGCalCluster>  hgcalClusterList;
 
     edm::Wrapper<l1t::HGCalTowerBxCollection>   w_hgcalTowerBxColl;
     edm::Wrapper<l1t::HGCalClusterBxCollection> w_hgcalClusterBxColl;
     edm::Wrapper<l1t::HGCalMulticlusterBxCollection> w_hgcalMulticlusterBxColl;
     edm::Wrapper<l1t::HGCalTriggerCellBxCollection>   w_hgcalTriggerCellBxColl;
-
+    edm::Wrapper<l1t::HGCalTriggerSumsBxCollection>   w_hgcalTriggerSumsBxColl;
+    
     edm::Wrapper<edm::Ptr<l1t::HGCalTriggerCell>> w_hgcalTriggerCellPtr;
+    edm::Wrapper<edm::Ptr<l1t::HGCalTriggerSums>> w_hgcalTriggerSumsPtr;
     edm::Wrapper<edm::PtrVector<l1t::HGCalTriggerCell>> w_hgcalTriggerCellList;
+    edm::Wrapper<edm::PtrVector<l1t::HGCalTriggerSums>> w_hgcalTriggerSumsList;
     edm::Wrapper<edm::Ptr<l1t::HGCalCluster>> w_hgcalClusterPtr;
     edm::Wrapper<edm::PtrVector<l1t::HGCalCluster>> w_hgcalClusterList;
     
