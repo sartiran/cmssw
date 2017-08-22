@@ -21,6 +21,7 @@
   <class name="edm::Wrapper<l1t::HGCalTowerBxCollection>"/>
 
   <class name="l1t::HGCalClusterT<l1t::HGCalTriggerCell>" />
+  <class name="l1t::HGCalClusterT<l1t::HGCalTriggerSums>" />
   <class name="l1t::HGCalCluster" ClassVersion="10">
     <version ClassVersion="10" checksum="607544984"/>
   </class>
@@ -43,12 +44,23 @@
   <class name="l1t::HGCalTriggerCellBxCollection"/>
   <class name="edm::Wrapper<l1t::HGCalTriggerCellBxCollection>"/>
 
+  <class name="l1t::HGCalTriggerSums" ClassVersion="11">
+    <version ClassVersion="11" checksum="4058188392"/>
+  </class>
+  <class name="std::vector<l1t::HGCalTriggerSums>" />
+  <class name="l1t::HGCalTriggerSumsBxCollection"/>
+  <class name="edm::Wrapper<l1t::HGCalTriggerSumsBxCollection>"/>
+
   <class name="edm::PtrVector<l1t::HGCalTriggerCell>" />
+  <class name="edm::PtrVector<l1t::HGCalTriggerSums>" />
   <class name="edm::PtrVector<l1t::HGCalCluster>" />
   <class name="edm::Ptr<l1t::HGCalTriggerCell>" />
+  <class name="edm::Ptr<l1t::HGCalTriggerSums>" />
   <class name="edm::Ptr<l1t::HGCalCluster>" />
   <class name="edm::Wrapper<edm::Ptr<l1t::HGCalTriggerCell>>"/>
   <class name="edm::Wrapper<edm::PtrVector<l1t::HGCalTriggerCell>>"/>
+  <class name="edm::Wrapper<edm::Ptr<l1t::HGCalTriggerSums>>"/>
+  <class name="edm::Wrapper<edm::PtrVector<l1t::HGCalTriggerSums>>"/>
   <class name="edm::Wrapper<edm::Ptr<l1t::HGCalCluster>>"/>
   <class name="edm::Wrapper<edm::PtrVector<l1t::HGCalCluster>>"/>
 
