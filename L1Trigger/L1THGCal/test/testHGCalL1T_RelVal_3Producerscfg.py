@@ -100,6 +100,7 @@ process.load('L1Trigger.L1THGCal.hgcalTriggerNtuples_cff')
 # Schedule definition
 process.schedule = cms.Schedule(process.hgcVFE_step, process.hgcConcentrator_step, process.hgcBE_step, process.FEVTDEBUGoutput_step)
 
+
 # Add early deletion of temporary data products to reduce peak memory need
 from Configuration.StandardSequences.earlyDeleteSettings_cff import customiseEarlyDelete
 process = customiseEarlyDelete(process)

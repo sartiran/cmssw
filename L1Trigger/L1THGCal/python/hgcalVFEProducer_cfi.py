@@ -2,8 +2,6 @@ import FWCore.ParameterSet.Config as cms
 
 import SimCalorimetry.HGCalSimProducers.hgcalDigitizer_cfi as digiparam
 
-#vfe_proc = cms.PSet( VFEProcessorName  = cms.string('HGCalVFECellBestChoiceProcessor')
-#
 
 # Digitization parameters
 adcSaturation_fC = digiparam.hgceeDigitizer.digiCfg.feCfg.adcSaturation_fC
@@ -16,7 +14,7 @@ tdcOnset_fC = digiparam.hgceeDigitizer.digiCfg.feCfg.tdcOnset_fC
 triggerCellLsbBeforeCompression = 100./1024.
 #triggerCellTruncationBits = 0
                     
-vfe_proc = cms.PSet( VFEProcessorName  = cms.string('HGCalVFECellBestChoiceProcessor'),
+vfe_proc = cms.PSet( VFEProcessorName  = cms.string('HGCalVFEProcessor'),
 		     # Digitization parameters
 		     linLSB = cms.double(100./1024.),
 		     triggerCellTruncationBits = cms.uint32(7),
