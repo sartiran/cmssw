@@ -10,12 +10,13 @@
 
 #include "L1Trigger/L1THGCal/interface/HGCalTriggerGeometryBase.h"
 
+#include "L1Trigger/L1THGCal/interface/HGCalConcentratorProcessorBase.h"
 
 #include <sstream>
 #include <memory>
 
 
-class HGCalConcentratorProducer : public edm::EDProducer  {  
+class HGCalConcentratorProducer : public edm::stream::EDProducer<> {  
  public:    
   HGCalConcentratorProducer(const edm::ParameterSet&);
   ~HGCalConcentratorProducer() { }
@@ -29,6 +30,7 @@ class HGCalConcentratorProducer : public edm::EDProducer  {
   edm::EDGetToken input_cell_, input_sums_;
   edm::ESHandle<HGCalTriggerGeometryBase> triggerGeometry_;
   
+  std::unique_ptr<HGCalConcentratorProcessorBase> concentratorProcess_;
 };
 
 DEFINE_FWK_MODULE(HGCalConcentratorProducer);
@@ -37,31 +39,49 @@ HGCalConcentratorProducer::
 HGCalConcentratorProducer(const edm::ParameterSet& conf):
   input_cell_(consumes<l1t::HGCalTriggerCellBxCollection>(conf.getParameter<edm::InputTag>("bxCollection"))),
   input_sums_(consumes<l1t::HGCalTriggerSumsBxCollection>(conf.getParameter<edm::InputTag>("bxCollection")))
-{   
-  
-  produces<l1t::HGCalTriggerCellBxCollection>("bxCollection");
-  produces<l1t::HGCalTriggerSumsBxCollection>("bxCollection");
-  
+{
+  //setup Concentrator parameters
+  const edm::ParameterSet& concParamConfig = conf.getParameterSet("Concentratorparam");
+  const std::string& concProcessorName = concParamConfig.getParameter<std::string>("ConcProcessorName");
+  HGCalConcentratorProcessorBase* concProc = HGCalConcentratorFactory::get()->create(concProcessorName, concParamConfig);
+  concentratorProcess_.reset(concProc);
+
+  concentratorProcess_->setProduces(*this);
+
 }
 
 void HGCalConcentratorProducer::beginRun(const edm::Run& /*run*/, 
                                           const edm::EventSetup& es) {
-					  
-				  
   es.get<IdealGeometryRecord>().get(triggerGeometry_);
+  
+  concentratorProcess_->setGeometry(triggerGeometry_.product());
+
 }
 
 void HGCalConcentratorProducer::produce(edm::Event& e, const edm::EventSetup& es) {
   
-  std::unique_ptr<l1t::HGCalTriggerCellBxCollection> 
-    		fe_output_trig_cell( new l1t::HGCalTriggerCellBxCollection );
- 
-  std::unique_ptr<l1t::HGCalTriggerSumsBxCollection> 
-    		fe_output_trig_sums( new l1t::HGCalTriggerSumsBxCollection );
+  // Select between bestChoiceSelect or thresholdSelect method, 
+  // will be selected in the configuration file
+  int choice = 0;
+
+
+  edm::Handle<l1t::HGCalTriggerCellBxCollection> trigCellBxColl;
+  edm::Handle<l1t::HGCalTriggerSumsBxCollection> trigSumsBxColl;
+
+  e.getByToken(input_cell_,trigCellBxColl);
+  e.getByToken(input_sums_,trigSumsBxColl);
+
+  const l1t::HGCalTriggerCellBxCollection& trigCell = *trigCellBxColl;
+  const l1t::HGCalTriggerSumsBxCollection& trigSums = *trigSumsBxColl;
   
-  
- 
-  e.put(std::move(fe_output_trig_cell), "bxCollection");
-  e.put(std::move(fe_output_trig_sums), "bxCollection");
+		
+  concentratorProcess_->reset();
+  if (choice == 0){
+    concentratorProcess_->bestChoiceSelect(trigCell);			
+  }
+  else if (choice == 1){
+    concentratorProcess_->thresholdSelect(trigCell);
+  }
+  concentratorProcess_->putInEvent(e);
    
 }

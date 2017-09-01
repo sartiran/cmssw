@@ -10,12 +10,13 @@
 
 #include "L1Trigger/L1THGCal/interface/HGCalTriggerGeometryBase.h"
 
+#include "L1Trigger/L1THGCal/interface/HGCalVFEProcessorBase.h"
 
 #include <sstream>
 #include <memory>
 
 
-class HGCalVFEProducer : public edm::EDProducer  {  
+class HGCalVFEProducer : public edm::stream::EDProducer<>  {  
  public:    
   HGCalVFEProducer(const edm::ParameterSet&);
   ~HGCalVFEProducer() { }
@@ -29,6 +30,7 @@ class HGCalVFEProducer : public edm::EDProducer  {
   edm::EDGetToken inputee_, inputfh_;
   edm::ESHandle<HGCalTriggerGeometryBase> triggerGeometry_;
   
+  std::unique_ptr<HGCalVFEProcessorBase> vfeProcess_;
 };
 
 DEFINE_FWK_MODULE(HGCalVFEProducer);
@@ -37,38 +39,59 @@ HGCalVFEProducer::
 HGCalVFEProducer(const edm::ParameterSet& conf):
   inputee_(consumes<HGCEEDigiCollection>(conf.getParameter<edm::InputTag>("eeDigis"))),
   inputfh_(consumes<HGCHEDigiCollection>(conf.getParameter<edm::InputTag>("fhDigis"))) 
-{ //std::cout << " ### HGCalVFEProducer::HGCalVFEProducer" << std::endl;
-  
+{   
   //setup VFE parameters
   const edm::ParameterSet& vfeParamConfig = conf.getParameterSet("VFEparam");
   const std::string& vfeProcessorName = vfeParamConfig.getParameter<std::string>("VFEProcessorName");
-  
-  produces<l1t::HGCalTriggerCellBxCollection>("bxCollection");
-  produces<l1t::HGCalTriggerSumsBxCollection>("bxCollection");
-  
-
-  //std::cout << " ### after creating l1t::HGCalTriggerCellBxCollection" << std::endl;
+  HGCalVFEProcessorBase* vfeProc = HGCalVFEProcessorBaseFactory::get()->create(vfeProcessorName, vfeParamConfig);
+  vfeProcess_.reset(vfeProc);
+    
+  vfeProcess_->setProduces(*this);
 }
 
 void HGCalVFEProducer::beginRun(const edm::Run& /*run*/, 
-                                          const edm::EventSetup& es) {
-					  
-  //std::cout << " ### HGCalVFEProducer::beginRun" << std::endl;					  
+                                          const edm::EventSetup& es) {					  				  
   es.get<IdealGeometryRecord>().get(triggerGeometry_);
+  vfeProcess_->setGeometry(triggerGeometry_.product());
 }
 
 void HGCalVFEProducer::produce(edm::Event& e, const edm::EventSetup& es) {
-  //std::cout << " ### HGCalVFEProducer::produce" << std::endl;
+    
+  edm::Handle<HGCEEDigiCollection> ee_digis_h;
+  edm::Handle<HGCHEDigiCollection> fh_digis_h, bh_digis_h;
+
+  e.getByToken(inputee_,ee_digis_h);
+  e.getByToken(inputfh_,fh_digis_h);
+
+  const HGCEEDigiCollection& ee_digis = *ee_digis_h;
+  const HGCHEDigiCollection& fh_digis = *fh_digis_h;
+  //const HGCHEDigiCollection& bh_digis = *bh_digis_h;
   
-  std::unique_ptr<l1t::HGCalTriggerCellBxCollection> 
-    		fe_output_trig_cell( new l1t::HGCalTriggerCellBxCollection );
+  // First find modules containing hits and prepare list of hits for each module
+  std::unordered_map<uint32_t, HGCEEDigiCollection> hit_modules_ee;
+  for(const auto& eedata : ee_digis) {    
+    uint32_t module = triggerGeometry_->getModuleFromCell(eedata.id());
+    auto itr_insert = hit_modules_ee.emplace(module,HGCEEDigiCollection());
+    itr_insert.first->second.push_back(eedata);
+  }
+    
+  std::unordered_map<uint32_t,HGCHEDigiCollection> hit_modules_fh;
+  for(const auto& fhdata : fh_digis) {
+    uint32_t module = triggerGeometry_->getModuleFromCell(fhdata.id());
+    auto itr_insert = hit_modules_fh.emplace(module, HGCHEDigiCollection());
+    itr_insert.first->second.push_back(fhdata);
+  }
+
+  for( const auto& module_hits : hit_modules_ee ) {
+    vfeProcess_->reset();
+    vfeProcess_->vfeProcessing(module_hits.second, HGCHEDigiCollection(), HGCHEDigiCollection());  
+  } //end loop on EE modules
+      
+  for( const auto& module_hits : hit_modules_fh ) {    
+    vfeProcess_->reset();
+    vfeProcess_->vfeProcessing(module_hits.second, HGCHEDigiCollection(), HGCHEDigiCollection());
+  } //end loop on FH modules
  
-  std::unique_ptr<l1t::HGCalTriggerSumsBxCollection> 
-    		fe_output_trig_sums( new l1t::HGCalTriggerSumsBxCollection );
-  
-  
- 
-  e.put(std::move(fe_output_trig_cell), "bxCollection");
-  e.put(std::move(fe_output_trig_sums), "bxCollection");
+  vfeProcess_->putInEvent(e);
    
 }

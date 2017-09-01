@@ -10,12 +10,13 @@
 
 #include "L1Trigger/L1THGCal/interface/HGCalTriggerGeometryBase.h"
 
+#include "L1Trigger/L1THGCal/interface/HGCalBackendProcessorBase.h"
 
 #include <sstream>
 #include <memory>
 
 
-class HGCalBackendProducer : public edm::EDProducer  {  
+class HGCalBackendProducer : public edm::stream::EDProducer<> {  
  public:    
   HGCalBackendProducer(const edm::ParameterSet&);
   ~HGCalBackendProducer() { }
@@ -28,39 +29,46 @@ class HGCalBackendProducer : public edm::EDProducer  {
   // inputs
   edm::EDGetToken input_cell_, input_sums_;
   edm::ESHandle<HGCalTriggerGeometryBase> triggerGeometry_;
-  
+
+  std::unique_ptr<HGCalBackendProcessorBase> backendProcess_;
 };
 
 DEFINE_FWK_MODULE(HGCalBackendProducer);
 
 HGCalBackendProducer::
 HGCalBackendProducer(const edm::ParameterSet& conf):
-  input_cell_(consumes<l1t::HGCalTriggerCellBxCollection>(conf.getParameter<edm::InputTag>("bxCollection_be"))),
-  input_sums_(consumes<l1t::HGCalTriggerSumsBxCollection>(conf.getParameter<edm::InputTag>("bxCollection_be")))
-{  
-  
-  produces<l1t::HGCalTriggerCellBxCollection>("bxCollection");
-  produces<l1t::HGCalTriggerSumsBxCollection>("bxCollection");
-  
+ 
+input_cell_(consumes<l1t::HGCalTriggerCellBxCollection>(conf.getParameter<edm::InputTag>("bxCollection_be"))),
+input_sums_(consumes<l1t::HGCalTriggerSumsBxCollection>(conf.getParameter<edm::InputTag>("bxCollection_be")))
+{   
+  //setup Backend parameters
+  const edm::ParameterSet& beParamConfig = conf.getParameterSet("Backendparam");
+  const std::string& beProcessorName = beParamConfig.getParameter<std::string>("BeProcessorName");
+  HGCalBackendProcessorBase* beProc = HGCalBackendFactory::get()->create(beProcessorName, beParamConfig);
+  backendProcess_.reset(beProc);
+
+  backendProcess_->setProduces(*this);
+
 }
 
 void HGCalBackendProducer::beginRun(const edm::Run& /*run*/, 
-                                          const edm::EventSetup& es) {
-					  					  
+                                          const edm::EventSetup& es) {				  
   es.get<IdealGeometryRecord>().get(triggerGeometry_);
 }
 
 void HGCalBackendProducer::produce(edm::Event& e, const edm::EventSetup& es) {
   
-  std::unique_ptr<l1t::HGCalTriggerCellBxCollection> 
-    		fe_output_trig_cell( new l1t::HGCalTriggerCellBxCollection );
- 
-  std::unique_ptr<l1t::HGCalTriggerSumsBxCollection> 
-    		fe_output_trig_sums( new l1t::HGCalTriggerSumsBxCollection );
-  
-  
- 
-  e.put(std::move(fe_output_trig_cell), "bxCollection");
-  e.put(std::move(fe_output_trig_sums), "bxCollection");
+  edm::Handle<l1t::HGCalTriggerCellBxCollection> trigCellBxColl;
+  //edm::Handle<l1t::HGCalTriggerSumsBxCollection> trigSumsBxColl;
+
+  e.getByToken(input_cell_,trigCellBxColl);
+  //e.getByToken(input_sums_,trigSumsBxColl);
+
+  const l1t::HGCalTriggerCellBxCollection& trigCell = *trigCellBxColl;
+  //const l1t::HGCalTriggerSumsBxCollection& trigSums = *trigSumsBxColl;
+
+  backendProcess_->reset();  
+  backendProcess_->run(trigCell,es,e);
+  backendProcess_->putInEvent(e);
    
 }
