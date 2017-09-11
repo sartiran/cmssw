@@ -71,8 +71,7 @@ void HGCalTriggerCellCalibration::calibrateMipTinGeV(l1t::HGCalTriggerCell& trgC
 }
 
 void HGCalTriggerCellCalibration::calibrateInGeV(l1t::HGCalTriggerCell& trgCell, int cellThickness)
-{
-
+{  
     /* calibrate from ADC count to transverse mip */
     calibrateInMipT(trgCell, cellThickness);
 

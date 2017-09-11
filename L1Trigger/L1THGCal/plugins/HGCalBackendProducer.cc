@@ -54,6 +54,7 @@ input_sums_(consumes<l1t::HGCalTriggerSumsBxCollection>(conf.getParameter<edm::I
 void HGCalBackendProducer::beginRun(const edm::Run& /*run*/, 
                                           const edm::EventSetup& es) {				  
   es.get<IdealGeometryRecord>().get(triggerGeometry_);
+  backendProcess_->setGeometry(triggerGeometry_.product());
 }
 
 void HGCalBackendProducer::produce(edm::Event& e, const edm::EventSetup& es) {
@@ -69,6 +70,6 @@ void HGCalBackendProducer::produce(edm::Event& e, const edm::EventSetup& es) {
 
   backendProcess_->reset();  
   backendProcess_->run(trigCell,es,e);
-  backendProcess_->putInEvent(e);
+  //backendProcess_->putInEvent(e); //The products are put into the event in run() method
    
 }

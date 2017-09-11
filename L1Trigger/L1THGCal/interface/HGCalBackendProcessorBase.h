@@ -18,7 +18,8 @@ class HGCalBackendProcessorBase {
   virtual ~HGCalBackendProcessorBase() {}
 
   const std::string& name() const { return name_; } 
- 
+  virtual void setGeometry(const HGCalTriggerGeometryBase* const geom) {geometry_ = geom;}
+  
   virtual void setProduces(edm::stream::EDProducer<>& prod) const = 0;
   virtual void putInEvent(edm::Event& evt) = 0;
   virtual void run(const l1t::HGCalTriggerCellBxCollection& coll, 
