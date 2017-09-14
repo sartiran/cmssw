@@ -3,8 +3,8 @@
 
 #include "L1Trigger/L1THGCal/interface/HGCalVFEProcessorBase.h"
 
-//#include "L1Trigger/L1THGCal/interface/veryfrontend/HGCalVFELinearizationImpl.h"
-//#include "L1Trigger/L1THGCal/interface/veryfrontend/HGCalVFESummationImpl.h"
+#include "L1Trigger/L1THGCal/interface/veryfrontend/HGCalVFELinearizationImpl.h"
+#include "L1Trigger/L1THGCal/interface/veryfrontend/HGCalVFESummationImpl.h"
 
 #include "DataFormats/L1THGCal/interface/HGCalTriggerCell.h"
 #include "DataFormats/L1THGCal/interface/HGCalTriggerSums.h"
@@ -25,12 +25,6 @@ class HGCalVFEProcessor : public HGCalVFEProcessorBase
     
     void putInEvent(edm::Event& evt);
     
-    void linearize(const std::vector<HGCDataFrame<HGCalDetId,HGCSample>>&,
-                	std::vector<std::pair<HGCalDetId, uint32_t > >&);
-
-    void triggerCellSums(const HGCalTriggerGeometryBase& ,
-                   		const std::vector<std::pair<HGCalDetId, uint32_t > >&);
-
     virtual void setProduces(edm::stream::EDProducer<>& prod) const override final 
     { 
       prod.produces<l1t::HGCalTriggerCellBxCollection>(name());
@@ -55,8 +49,8 @@ class HGCalVFEProcessor : public HGCalVFEProcessorBase
     uint32_t adcnBits_;
     double   tdcsaturation_ ;
     double tdcLSB_;
-    //HGCalVFELinearizationImpl vfeLinearizationImpl_;
-    //HGCalVFESummationImpl vfeSummationImpl_; 
+    HGCalVFELinearizationImpl vfeLinearizationImpl_;
+    HGCalVFESummationImpl vfeSummationImpl_; 
     
     std::unique_ptr<l1t::HGCalTriggerCellBxCollection> triggerCell_product_;
     std::unique_ptr<l1t::HGCalTriggerSumsBxCollection> triggerSums_product_;
