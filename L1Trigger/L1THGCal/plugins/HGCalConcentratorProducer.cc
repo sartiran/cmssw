@@ -29,6 +29,7 @@ class HGCalConcentratorProducer : public edm::stream::EDProducer<> {
   // inputs
   edm::EDGetToken input_cell_, input_sums_;
   edm::ESHandle<HGCalTriggerGeometryBase> triggerGeometry_;
+  std::string choice_;
   
   std::unique_ptr<HGCalConcentratorProcessorBase> concentratorProcess_;
 };
@@ -43,6 +44,7 @@ HGCalConcentratorProducer(const edm::ParameterSet& conf):
   //setup Concentrator parameters
   const edm::ParameterSet& concParamConfig = conf.getParameterSet("Concentratorparam");
   const std::string& concProcessorName = concParamConfig.getParameter<std::string>("ConcProcessorName");
+  choice_ = concParamConfig.getParameter<std::string>("Method");
   HGCalConcentratorProcessorBase* concProc = HGCalConcentratorFactory::get()->create(concProcessorName, concParamConfig);
   concentratorProcess_.reset(concProc);
 
@@ -60,11 +62,6 @@ void HGCalConcentratorProducer::beginRun(const edm::Run& /*run*/,
 
 void HGCalConcentratorProducer::produce(edm::Event& e, const edm::EventSetup& es) {
   
-  // Select between bestChoiceSelect or thresholdSelect method, 
-  // will be selected in the configuration file
-  int choice = 0;
-
-
   edm::Handle<l1t::HGCalTriggerCellBxCollection> trigCellBxColl;
   edm::Handle<l1t::HGCalTriggerSumsBxCollection> trigSumsBxColl;
 
@@ -72,14 +69,13 @@ void HGCalConcentratorProducer::produce(edm::Event& e, const edm::EventSetup& es
   e.getByToken(input_sums_,trigSumsBxColl);
 
   const l1t::HGCalTriggerCellBxCollection& trigCell = *trigCellBxColl;
-  const l1t::HGCalTriggerSumsBxCollection& trigSums = *trigSumsBxColl;
-  
-		
+  //const l1t::HGCalTriggerSumsBxCollection& trigSums = *trigSumsBxColl;
+  		
   concentratorProcess_->reset();
-  if (choice == 0){
+  if (choice_ == "bestChoiceSelect"){
     concentratorProcess_->bestChoiceSelect(trigCell);			
   }
-  else if (choice == 1){
+  else if (choice_ == "thresholdSelect"){
     concentratorProcess_->thresholdSelect(trigCell);
   }
   concentratorProcess_->putInEvent(e);

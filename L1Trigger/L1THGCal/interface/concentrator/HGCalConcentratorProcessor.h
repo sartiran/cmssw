@@ -2,7 +2,7 @@
 #define __L1Trigger_L1THGCal_HGCalConcentratorProcessor_h__
 
 #include "L1Trigger/L1THGCal/interface/HGCalConcentratorProcessorBase.h"
-//#include "L1Trigger/L1THGCal/interface/conc_process/HGCalConcentratorProcessorImpl.h"
+#include "L1Trigger/L1THGCal/interface/concentrator/HGCalConcentratorSelectionImpl.h"
 
 #include "DataFormats/L1THGCal/interface/HGCalTriggerCell.h"
 #include "DataFormats/L1THGCal/interface/HGCalTriggerSums.h"
@@ -30,26 +30,16 @@ class HGCalConcentratorProcessor : public HGCalConcentratorProcessorBase
   void bestChoiceSelect(const l1t::HGCalTriggerCellBxCollection& coll);
   void thresholdSelect(const l1t::HGCalTriggerCellBxCollection& coll);
   
-  // Retrieve parameters
-  size_t nCellsInModule() const {return nCellsInModule_;}
-  double linLSB() const {return linLSB_;}
-  size_t nData() const {return nData_;}
-
-  // Retrieve parameters
-  int TCThreshold_ADC() const {return TCThreshold_ADC_;} 
-  double TCThreshold_fC() const {return TCThreshold_fC_;} 
+  std::vector<l1t::HGCalTriggerCell> trigCellCollectionToVector(int ibx, const l1t::HGCalTriggerCellBxCollection& coll);
+  void trigCellVectorToCollection(int ibx, const std::vector<l1t::HGCalTriggerCell>);
+  
   
  private:
-  //HGCalConcentratorProcessorImpl ConcentratorProcImpl_;
+  HGCalConcentratorSelectionImpl ConcentratorProcImpl_;
   
   std::unique_ptr<l1t::HGCalTriggerCellBxCollection> triggerCellConc_product_;
   std::unique_ptr<l1t::HGCalTriggerSumsBxCollection> triggerSumsConc_product_;
 
-  size_t nData_;
-  size_t nCellsInModule_;
-  double linLSB_;
-  int TCThreshold_ADC_;
-  double TCThreshold_fC_;
 };
 
 #endif
