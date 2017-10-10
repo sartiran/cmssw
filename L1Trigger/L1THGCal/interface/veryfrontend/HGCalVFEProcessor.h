@@ -51,6 +51,7 @@ class HGCalVFEProcessor : public HGCalVFEProcessorBase
     double tdcLSB_;
     HGCalVFELinearizationImpl vfeLinearizationImpl_;
     HGCalVFESummationImpl vfeSummationImpl_; 
+    std::map<HGCalDetId, uint32_t> payload_;
     
     std::unique_ptr<l1t::HGCalTriggerCellBxCollection> triggerCell_product_;
     std::unique_ptr<l1t::HGCalTriggerSumsBxCollection> triggerSums_product_;
