@@ -18,7 +18,7 @@ class HGCalVFESummationImpl
   
   void triggerCellSums(const HGCalTriggerGeometryBase& ,
                    		const std::vector<std::pair<HGCalDetId, uint32_t > >&,
-				std::map<HGCalDetId, uint32_t> payload);
+				std::map<HGCalDetId, uint32_t>& payload);
    
  private:
      
