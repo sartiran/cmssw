@@ -29,7 +29,8 @@ HGCalVFEProcessor::
 vfeProcessing(const HGCEEDigiCollection& ee,
         		const HGCHEDigiCollection& fh,
         		const HGCHEDigiCollection& ) 
-{   
+{ //std::cout << " Call vfeProcessing" << std::endl;
+  
   std::vector<HGCDataFrame<HGCalDetId,HGCSample>> dataframes;
   std::vector<std::pair<HGCalDetId, uint32_t > > linearized_dataframes;
   std::map<HGCalDetId, uint32_t> payload;
@@ -46,12 +47,18 @@ vfeProcessing(const HGCEEDigiCollection& ee,
       }
     }
   }
-
+ 
   vfeLinearizationImpl_.linearize(dataframes, linearized_dataframes);
   vfeSummationImpl_.triggerCellSums(*geometry_, linearized_dataframes, payload);  
   
-  l1t::HGCalTriggerCell triggerCell(reco::LeafCandidate::LorentzVector(), 0, 0, 0, 0, 0);
-  triggerCell_product_->push_back(0, triggerCell);
+  for(const auto& id_value : payload)
+  {
+  
+    l1t::HGCalTriggerCell triggerCell(reco::LeafCandidate::LorentzVector(), id_value.second, 0, 0, 0, id_value.first.rawId());    
+    triggerCell_product_->push_back(0, triggerCell);
+
+  }
+  
   
 }
 
