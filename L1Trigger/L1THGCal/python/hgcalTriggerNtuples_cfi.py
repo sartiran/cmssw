@@ -19,20 +19,37 @@ ntuple_digis = cms.PSet(
     isSimhitComp = cms.bool(False)
 )
 
+#ntuple_triggercells = cms.PSet(
+#    NtupleName = cms.string('HGCalTriggerNtupleHGCTriggerCells'),
+#    TriggerCells = cms.InputTag('hgcalTriggerPrimitiveDigiProducer:calibratedTriggerCells')
+#)
+
+#ntuple_clusters = cms.PSet(
+#    NtupleName = cms.string('HGCalTriggerNtupleHGCClusters'),
+#    Clusters = cms.InputTag('hgcalTriggerPrimitiveDigiProducer:cluster2D')
+#)
+
+#ntuple_multicluster = cms.PSet(
+#    NtupleName = cms.string('HGCalTriggerNtupleHGCMulticlusters'),
+#    Multiclusters = cms.InputTag('hgcalTriggerPrimitiveDigiProducer:cluster3D')
+#)
+
+#new
 ntuple_triggercells = cms.PSet(
     NtupleName = cms.string('HGCalTriggerNtupleHGCTriggerCells'),
-    TriggerCells = cms.InputTag('hgcalTriggerPrimitiveDigiProducer:calibratedTriggerCells')
+    TriggerCells = cms.InputTag('hgcalBackEndProducer:calibratedTriggerCells')
 )
 
 ntuple_clusters = cms.PSet(
     NtupleName = cms.string('HGCalTriggerNtupleHGCClusters'),
-    Clusters = cms.InputTag('hgcalTriggerPrimitiveDigiProducer:cluster2D')
+    Clusters = cms.InputTag('hgcalBackEndProducer:cluster2D')
 )
 
 ntuple_multicluster = cms.PSet(
     NtupleName = cms.string('HGCalTriggerNtupleHGCMulticlusters'),
-    Multiclusters = cms.InputTag('hgcalTriggerPrimitiveDigiProducer:cluster3D')
+    Multiclusters = cms.InputTag('hgcalBackEndProducer:cluster3D')
 )
+#--------------------
 
 hgcalTriggerNtuplizer = cms.EDAnalyzer(
     "HGCalTriggerNtupleManager",
