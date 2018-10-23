@@ -124,14 +124,8 @@ void HGCalTriggerValidator::bookHistograms(DQMStore::IBooker &iBooker, edm::Run 
   h_tc_energy = iBooker.book1D("tc_energy","trigCell energy; energy", 70, 0, 70);
   h_tc_eta = iBooker.book1D("tc_eta","trigCell eta; eta", 8, -4, 4);
   h_tc_phi = iBooker.book1D("tc_phi","trigCell phi; phi", 8, -4, 4);
-  h_tc_n = iBooker.book1D("tc_n","trigCell number", 400, 0, 400);
-  h_tc_id = iBooker.book1D("tc_id","trigCell id", 30000, 1600000000, 1900000000);
-  h_tc_subdet = iBooker.book1D("tc_subdet","trigCell subdet", 4, 2, 6 ); 
-  h_tc_zside = iBooker.book1D("tc_side","trigCell side", 4, -2, 2); 
+  h_tc_n = iBooker.book1D("tc_n","trigCell number", 400, 0, 400);s
   h_tc_layer = iBooker.book1D("tc_layer","trigCell layer", 50, 0, 50);
-  h_tc_wafer = iBooker.book1D("tc_wafer","trigCell wafer", 460, 0, 460);
-  h_tc_wafertype = iBooker.book1D("tc_wafertype","trigCell wafertype", 3, 0, 3);
-  h_tc_cell = iBooker.book1D("tc_cell","trigCell cell", 50, 0, 50);
   h_tc_data = iBooker.book1D("tc_data","trigCell data", 5000, 0, 50000);
   h_tc_mipPt = iBooker.book1D("tc_mipPt","trigCell mipPt", 400, 0, 400);
   h_tc_pt = iBooker.book1D("tc_pt","trigCell pt", 15, 0, 15);
@@ -147,7 +141,6 @@ void HGCalTriggerValidator::bookHistograms(DQMStore::IBooker &iBooker, edm::Run 
   h_cl_mipPt = iBooker.book1D("cl_mipPt","cluster2D mipPt",600, 0, 600);
   h_cl_pt = iBooker.book1D("cl_pt","cluster2D pt",20, 0, 20);
   h_cl_layer = iBooker.book1D("cl_layer","cluster2D layer", 50, 0, 50);
-  h_cl_subdet = iBooker.book1D("cl_subdet","cluster2D subdet", 4, 2, 6); 
   h_cl_cells_n = iBooker.book1D("cl_cells_n","cluster2D cells_n", 16, 0, 16);
 
   // multiclusters
@@ -216,7 +209,6 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
       h_tc_wafer->Fill(id.wafer());
       h_tc_wafertype->Fill(id.waferType());
       h_tc_cell->Fill(id.cell());
-      h_tc_data->Fill(tc_itr->hwPt());
       h_tc_mipPt->Fill(tc_itr->mipPt());
       h_tc_pt->Fill(tc_itr->pt());
       h_tc_x->Fill(tc_itr->position().x());
