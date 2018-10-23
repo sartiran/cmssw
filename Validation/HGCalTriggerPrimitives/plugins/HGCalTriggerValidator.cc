@@ -1,14 +1,3 @@
-// -*- C++ -*-
-//
-// Package:    
-// Class:      HGCalTriggerValidator
-// 
-/**\class 
- Description: [one line class summary]
- Implementation:
-     [Notes on implementation]
-*/
-
 // system include files
 #include <memory>
 #include <iostream>
@@ -37,7 +26,6 @@
 #include "DataFormats/L1THGCal/interface/HGCalMulticluster.h"
 #include "DataFormats/L1THGCal/interface/HGCalTower.h"
 
-#include "FWCore/ServiceRegistry/interface/Service.h"
 #include "L1Trigger/L1THGCal/interface/HGCalTriggerTools.h"
 
 #include "L1Trigger/L1THGCal/interface/backend/HGCalTriggerClusterIdentificationBase.h"
@@ -178,7 +166,6 @@ void HGCalTriggerValidator::bookHistograms(DQMStore::IBooker &iBooker, edm::Run 
 }
 
 void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
-  using namespace edm;
 
   tc_n = 0;
   cl_n = 0;
