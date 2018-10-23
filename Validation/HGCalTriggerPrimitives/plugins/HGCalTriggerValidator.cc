@@ -60,15 +60,14 @@ class HGCalTriggerValidator : public DQMEDAnalyzer {
   private:
 // ----------member data ---------------------------
     //histogram tc related
-    MonitorElement *h_tc_n, *h_tc_id, *h_tc_subdet, *h_tc_zside, *h_tc_layer;
-    MonitorElement *h_tc_wafer, *h_tc_wafertype, *h_tc_cell, *h_tc_data;
-    MonitorElement *h_tc_mipPt, *h_tc_pt, *h_tc_simenergy, *h_tc_x, *h_tc_y; 
+    MonitorElement *h_tc_n, *h_tc_layer, *h_tc_mipPt;
+    MonitorElement *h_tc_pt, *h_tc_simenergy, *h_tc_x, *h_tc_y; 
     MonitorElement *h_tc_z, *h_tc_energy, *h_tc_eta, *h_tc_phi;
 
     //histogram cl related
     MonitorElement *h_cl_n, *h_cl_mipPt, *h_cl_pt; 
     MonitorElement *h_cl_energy, *h_cl_eta, *h_cl_phi;
-    MonitorElement *h_cl_layer, *h_cl_subdet, *h_cl_cells_n;
+    MonitorElement *h_cl_layer, *h_cl_cells_n;
 
     //histogram multicl related
     MonitorElement *h_cl3d_n, *h_cl3d_pt, *h_cl3d_energy;
@@ -124,9 +123,8 @@ void HGCalTriggerValidator::bookHistograms(DQMStore::IBooker &iBooker, edm::Run 
   h_tc_energy = iBooker.book1D("tc_energy","trigCell energy; energy", 70, 0, 70);
   h_tc_eta = iBooker.book1D("tc_eta","trigCell eta; eta", 8, -4, 4);
   h_tc_phi = iBooker.book1D("tc_phi","trigCell phi; phi", 8, -4, 4);
-  h_tc_n = iBooker.book1D("tc_n","trigCell number", 400, 0, 400);s
+  h_tc_n = iBooker.book1D("tc_n","trigCell number", 400, 0, 400);
   h_tc_layer = iBooker.book1D("tc_layer","trigCell layer", 50, 0, 50);
-  h_tc_data = iBooker.book1D("tc_data","trigCell data", 5000, 0, 50000);
   h_tc_mipPt = iBooker.book1D("tc_mipPt","trigCell mipPt", 400, 0, 400);
   h_tc_pt = iBooker.book1D("tc_pt","trigCell pt", 15, 0, 15);
   h_tc_x = iBooker.book1D("tc_x","trigCell x", 500, -250, 250);
@@ -202,13 +200,7 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
       h_tc_energy->Fill(tc_itr->energy());
       h_tc_eta->Fill(tc_itr->eta());
       h_tc_phi->Fill(tc_itr->phi());
-      h_tc_id->Fill(tc_itr->detId());
-      h_tc_subdet->Fill(id.subdetId());
-      h_tc_zside->Fill(id.zside());
       h_tc_layer->Fill(triggerTools_.layerWithOffset(id));
-      h_tc_wafer->Fill(id.wafer());
-      h_tc_wafertype->Fill(id.waferType());
-      h_tc_cell->Fill(id.cell());
       h_tc_mipPt->Fill(tc_itr->mipPt());
       h_tc_pt->Fill(tc_itr->pt());
       h_tc_x->Fill(tc_itr->position().x());
@@ -232,7 +224,6 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
       h_cl_eta->Fill(cl_itr->eta());
       h_cl_phi->Fill(cl_itr->phi());
       h_cl_layer->Fill(triggerTools_.layerWithOffset(cl_itr->detId()));
-      h_cl_subdet->Fill(cl_itr->subdetId());
       h_cl_cells_n->Fill(cl_itr->constituents().size());
     }
   }
