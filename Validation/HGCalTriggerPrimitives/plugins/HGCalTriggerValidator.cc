@@ -106,6 +106,8 @@ HGCalTriggerValidator::~HGCalTriggerValidator(){
 
 void HGCalTriggerValidator::bookHistograms(DQMStore::IBooker &iBooker, edm::Run const &, edm::EventSetup const &) {
 
+   iBooker.setCurrentFolder("HGCALTPG");
+   
   //initiating histograms
   // trigger cells 
   h_tc_energy_ = iBooker.book1D("tc_energy","trigger cell energy; energy [GeV]", 70, 0, 70);
