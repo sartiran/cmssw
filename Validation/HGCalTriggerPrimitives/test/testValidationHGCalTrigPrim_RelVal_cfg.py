@@ -92,6 +92,7 @@ process.out_step = cms.EndPath(process.output)
 process.load('Validation.HGCalTriggerPrimitives.hgcalValidationTPG_cff')
 process.hgcalValidationTPG_step = cms.Path(process.runHGCALlValidationTPG)
 
+process.dqmSaver.workflow = '/validation/' + 'HGCAL' + '/TPG'
 process.dqmsave_step = cms.Path(process.dqmSaver)
 
 # Schedule definition
