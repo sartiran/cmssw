@@ -48,29 +48,64 @@ class HGCalTriggerValidator : public DQMEDAnalyzer {
   private:
 // ----------member data ---------------------------
     //histogram tc related
-    MonitorElement *h_tc_n_, *h_tc_layer_, *h_tc_mipPt_;
-    MonitorElement *h_tc_pt_, *h_tc_x_, *h_tc_y_; 
-    MonitorElement *h_tc_z_, *h_tc_energy_, *h_tc_eta_, *h_tc_phi_;
+    MonitorElement *h_tc_n_;
+    MonitorElement *h_tc_mipPt_;
+    MonitorElement *h_tc_pt_;
+    MonitorElement *h_tc_energy_; 
+    MonitorElement *h_tc_eta_;
+    MonitorElement *h_tc_phi_;
+
+
+    MonitorElement *h_tc_x_;
+    MonitorElement *h_tc_y_; 
+    MonitorElement *h_tc_z_;
+
+    MonitorElement *h_tc_layer_;
 
     //histogram cl related
-    MonitorElement *h_cl_n_, *h_cl_mipPt_, *h_cl_pt_; 
-    MonitorElement *h_cl_energy_, *h_cl_eta_, *h_cl_phi_;
-    MonitorElement *h_cl_layer_, *h_cl_cells_n_;
+    MonitorElement *h_cl_n_;
+    MonitorElement *h_cl_mipPt_;
+    MonitorElement *h_cl_pt_; 
+    MonitorElement *h_cl_energy_; 
+    MonitorElement *h_cl_eta_;
+    MonitorElement *h_cl_phi_;
+    MonitorElement *h_cl_layer_;
+    MonitorElement *h_cl_cells_n_;
 
     //histogram multicl related
-    MonitorElement *h_cl3d_n_, *h_cl3d_pt_, *h_cl3d_energy_;
-    MonitorElement *h_cl3d_eta_, *h_cl3d_phi_, *h_cl3d_clusters_n_;
+    MonitorElement *h_cl3d_n_;
+    MonitorElement *h_cl3d_pt_;
+    MonitorElement *h_cl3d_energy_;
+    MonitorElement *h_cl3d_eta_;
+    MonitorElement *h_cl3d_phi_;
+    MonitorElement *h_cl3d_clusters_n_;
     // cluster shower shapes
-    MonitorElement *h_cl3d_showerlength_, *h_cl3d_coreshowerlength_, *h_cl3d_firstlayer_;
-    MonitorElement *h_cl3d_maxlayer_, *h_cl3d_seetot_, *h_cl3d_seemax_;
-    MonitorElement *h_cl3d_spptot_, *h_cl3d_sppmax_, *h_cl3d_szz_;
-    MonitorElement *h_cl3d_srrtot_, *h_cl3d_srrmax_, *h_cl3d_srrmean_;
-    MonitorElement *h_cl3d_emaxe_, *h_cl3d_bdteg_, *h_cl3d_quality_;
+    MonitorElement *h_cl3d_showerlength_;
+    MonitorElement *h_cl3d_coreshowerlength_;
+    MonitorElement *h_cl3d_firstlayer_;
+    MonitorElement *h_cl3d_maxlayer_;
+    MonitorElement *h_cl3d_seetot_;
+    MonitorElement *h_cl3d_seemax_;
+    MonitorElement *h_cl3d_spptot_;
+    MonitorElement *h_cl3d_sppmax_;
+    MonitorElement *h_cl3d_szz_;
+    MonitorElement *h_cl3d_srrtot_;
+    MonitorElement *h_cl3d_srrmax_;
+    MonitorElement *h_cl3d_srrmean_;
+    MonitorElement *h_cl3d_emaxe_;
+    MonitorElement *h_cl3d_bdteg_;
+    MonitorElement *h_cl3d_quality_;
 
     //histogram tower related
-    MonitorElement *h_tower_n_, *h_tower_pt_, *h_tower_energy_;
-    MonitorElement *h_tower_eta_, *h_tower_phi_, *h_tower_etEm_;
-    MonitorElement *h_tower_etHad_, *h_tower_iEta_, *h_tower_iPhi_;
+    MonitorElement *h_tower_n_;
+    MonitorElement *h_tower_pt_;
+    MonitorElement *h_tower_energy_;
+    MonitorElement *h_tower_eta_;
+    MonitorElement *h_tower_phi_;
+    MonitorElement *h_tower_etEm_;
+    MonitorElement *h_tower_etHad_;
+    MonitorElement *h_tower_iEta_;
+    MonitorElement *h_tower_iPhi_;
 
 
     edm::EDGetToken trigger_cells_token_;
