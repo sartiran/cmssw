@@ -54,12 +54,9 @@ class HGCalTriggerValidator : public DQMEDAnalyzer {
     MonitorElement *h_tc_energy_; 
     MonitorElement *h_tc_eta_;
     MonitorElement *h_tc_phi_;
-
-
     MonitorElement *h_tc_x_;
     MonitorElement *h_tc_y_; 
     MonitorElement *h_tc_z_;
-
     MonitorElement *h_tc_layer_;
 
     //histogram cl related
@@ -113,14 +110,8 @@ class HGCalTriggerValidator : public DQMEDAnalyzer {
     edm::EDGetToken multiclusters_token_; 
     edm::EDGetToken towers_token_;
    
-   std::unique_ptr<HGCalTriggerClusterIdentificationBase> id_;
+    std::unique_ptr<HGCalTriggerClusterIdentificationBase> id_;
    
-private:
-    int tc_n;
-    int cl_n;
-    int cl3d_n;
-    int tower_n;
-    
     HGCalTriggerTools triggerTools_;
 };
 
@@ -144,34 +135,34 @@ void HGCalTriggerValidator::bookHistograms(DQMStore::IBooker &iBooker, edm::Run 
    iBooker.setCurrentFolder("HGCALTPG");
    
   //initiating histograms
-  // trigger cells 
+  // trigger cells
+  h_tc_n_ = iBooker.book1D("tc_n","trigger cell number; number", 400, 0, 400);
+  h_tc_mipPt_ = iBooker.book1D("tc_mipPt","trigger cell mipPt; mipPt", 400, 0, 400);
+  h_tc_pt_ = iBooker.book1D("tc_pt","trigger cell pt; pt [GeV]", 15, 0, 15);
   h_tc_energy_ = iBooker.book1D("tc_energy","trigger cell energy; energy [GeV]", 70, 0, 70);
   h_tc_eta_ = iBooker.book1D("tc_eta","trigger cell eta; eta", 60, -3.14, 3.14);
   h_tc_phi_ = iBooker.book1D("tc_phi","trigger cell phi; phi", 60, -3.14, 3.14);
-  h_tc_n_ = iBooker.book1D("tc_n","trigger cell number; number", 400, 0, 400);
-  h_tc_layer_ = iBooker.book1D("tc_layer","trigger cell layer; layer", 50, 0, 50);
-  h_tc_mipPt_ = iBooker.book1D("tc_mipPt","trigger cell mipPt; mipPt", 400, 0, 400);
-  h_tc_pt_ = iBooker.book1D("tc_pt","trigger cell pt; pt [GeV]", 15, 0, 15);
   h_tc_x_ = iBooker.book1D("tc_x","trigger cell x; x [cm]", 500, -250, 250);
   h_tc_y_ = iBooker.book1D("tc_y","trigger cell y; y [cm]", 500, -250, 250); 
   h_tc_z_ = iBooker.book1D("tc_z","trigger cell z; z [cm]", 1100, -550, 550);
+  h_tc_layer_ = iBooker.book1D("tc_layer","trigger cell layer; layer", 50, 0, 50);
 
   // cluster 2D histograms
-  h_cl_energy_= iBooker.book1D("cl_energy","cluster2D energy; energy [GeV]", 80, 0, 80);
-  h_cl_eta_ = iBooker.book1D("cl_eta","cluster2D eta; eta", 60, -3.14, 3.14);
-  h_cl_phi_ = iBooker.book1D("cl_phi","cluster2D phi; phi", 60, -3.14, 3.14);
   h_cl_n_ = iBooker.book1D("cl_n","cluster2D number; number",80, 0, 80);
   h_cl_mipPt_ = iBooker.book1D("cl_mipPt","cluster2D mipPt; mipPt",600, 0, 600);
   h_cl_pt_ = iBooker.book1D("cl_pt","cluster2D pt; pt [GeV]",20, 0, 20);
-  h_cl_layer_ = iBooker.book1D("cl_layer","cluster2D layer; layer", 50, 0, 50);
+  h_cl_energy_= iBooker.book1D("cl_energy","cluster2D energy; energy [GeV]", 80, 0, 80);
+  h_cl_eta_ = iBooker.book1D("cl_eta","cluster2D eta; eta", 60, -3.14, 3.14);
+  h_cl_phi_ = iBooker.book1D("cl_phi","cluster2D phi; phi", 60, -3.14, 3.14);
   h_cl_cells_n_ = iBooker.book1D("cl_cells_n","cluster2D cells_n; cells_n", 16, 0, 16);
-
+  h_cl_layer_ = iBooker.book1D("cl_layer","cluster2D layer; layer", 50, 0, 50);
+    
   // multiclusters
+  h_cl3d_n_ = iBooker.book1D("cl3d_n","cl3duster3D number; number", 12, 0, 12);
+  h_cl3d_pt_ = iBooker.book1D("cl3d_pt","cl3duster3D pt; pt [GeV]", 50, 0, 50);
   h_cl3d_energy_ = iBooker.book1D("cl3d_energy","cl3duster3D energy; energy [GeV]", 80, 0, 80);
   h_cl3d_eta_ = iBooker.book1D("cl3d_eta","cl3duster3D eta; eta", 60, -3.14, 3.14);
   h_cl3d_phi_ = iBooker.book1D("cl3d_phi","cl3duster3D phi; phi", 60, -3.14, 3.14);
-  h_cl3d_n_ = iBooker.book1D("cl3d_n","cl3duster3D number; number", 12, 0, 12);
-  h_cl3d_pt_ = iBooker.book1D("cl3d_pt","cl3duster3D pt; pt [GeV]", 50, 0, 50);
   h_cl3d_clusters_n_ = iBooker.book1D("cl3d_clusters_n","cl3duster3D clusters_n; clusters_n", 30, 0, 30);
   // cluster shower shapes
   h_cl3d_showerlength_ = iBooker.book1D("cl3d_showerlength","cl3duster3D showerlength; showerlength", 50, 0, 50);
@@ -204,11 +195,11 @@ void HGCalTriggerValidator::bookHistograms(DQMStore::IBooker &iBooker, edm::Run 
 
 void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
-  tc_n = 0;
-  cl_n = 0;
-  cl3d_n = 0;
-  tower_n = 0;
-
+  int tc_n = 0;
+  int cl_n = 0;
+  int cl3d_n = 0;
+  int tower_n = 0;
+  
   triggerTools_.eventSetup(iSetup);
 
   // retrieve trigger cells
@@ -221,15 +212,15 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
     {
       tc_n++;
       HGCalDetId id(tc_itr->detId());
+      h_tc_pt_->Fill(tc_itr->pt());
+      h_tc_mipPt_->Fill(tc_itr->mipPt());
       h_tc_energy_->Fill(tc_itr->energy());
       h_tc_eta_->Fill(tc_itr->eta());
       h_tc_phi_->Fill(tc_itr->phi());
-      h_tc_layer_->Fill(triggerTools_.layerWithOffset(id));
-      h_tc_mipPt_->Fill(tc_itr->mipPt());
-      h_tc_pt_->Fill(tc_itr->pt());
       h_tc_x_->Fill(tc_itr->position().x());
       h_tc_y_->Fill(tc_itr->position().y()); 
       h_tc_z_->Fill(tc_itr->position().z());
+      h_tc_layer_->Fill(triggerTools_.layerWithOffset(id));
     }
   }
   h_tc_n_->Fill(tc_n);
@@ -294,7 +285,7 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
   const l1t::HGCalTowerBxCollection& towers = *towers_h;
 
   if (towers_h.isValid()){
-    for(auto tower_itr=towers.begin(0); tower_itr!=towers.end(0); tower_itr++){   
+    for(auto tower_itr=towers.begin(0); tower_itr!=towers.end(0); tower_itr++){
       tower_n++;
       h_tower_pt_->Fill(tower_itr->pt());
       h_tower_energy_->Fill(tower_itr->energy());
