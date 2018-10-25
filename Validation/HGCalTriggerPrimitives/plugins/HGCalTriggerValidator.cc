@@ -81,10 +81,10 @@ class HGCalTriggerValidator : public DQMEDAnalyzer {
    std::unique_ptr<HGCalTriggerClusterIdentificationBase> id_;
    
 private:
-    int tc_n_;
-    int cl_n_;
-    int cl3d_n_;
-    int tower_n_;
+    int tc_n;
+    int cl_n;
+    int cl3d_n;
+    int tower_n;
     
     HGCalTriggerTools triggerTools_;
 };
@@ -169,10 +169,10 @@ void HGCalTriggerValidator::bookHistograms(DQMStore::IBooker &iBooker, edm::Run 
 
 void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
-  tc_n_ = 0;
-  cl_n_ = 0;
-  cl3d_n_ = 0;
-  tower_n_ = 0;
+  tc_n = 0;
+  cl_n = 0;
+  cl3d_n = 0;
+  tower_n = 0;
 
   triggerTools_.eventSetup(iSetup);
 
@@ -184,7 +184,7 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
   if (trigger_cells_h.isValid()){
     for(auto tc_itr=trigger_cells.begin(0); tc_itr!=trigger_cells.end(0); tc_itr++)
     {
-      tc_n_++;
+      tc_n++;
       HGCalDetId id(tc_itr->detId());
       h_tc_energy_->Fill(tc_itr->energy());
       h_tc_eta_->Fill(tc_itr->eta());
@@ -197,7 +197,7 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
       h_tc_z_->Fill(tc_itr->position().z());
     }
   }
-  h_tc_n_->Fill(tc_n_);
+  h_tc_n_->Fill(tc_n);
 
   // retrieve clusters
   edm::Handle<l1t::HGCalClusterBxCollection> clusters_h;
@@ -206,7 +206,7 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
 
   if (clusters_h.isValid()){
     for(auto cl_itr=clusters.begin(0); cl_itr!=clusters.end(0); cl_itr++){
-      cl_n_++;
+      cl_n++;
       h_cl_mipPt_->Fill(cl_itr->mipPt());
       h_cl_pt_->Fill(cl_itr->pt());
       h_cl_energy_->Fill(cl_itr->energy());
@@ -216,7 +216,7 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
       h_cl_cells_n_->Fill(cl_itr->constituents().size());
     }
   }
-  h_cl_n_->Fill(cl_n_);
+  h_cl_n_->Fill(cl_n);
 
   // retrieve clusters 3D
   edm::Handle<l1t::HGCalMulticlusterBxCollection> multiclusters_h;
@@ -227,7 +227,7 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
        
     for(auto cl3d_itr=multiclusters.begin(0); cl3d_itr!=multiclusters.end(0); cl3d_itr++){
       
-      cl3d_n_++;
+      cl3d_n++;
       h_cl3d_pt_->Fill(cl3d_itr->pt());
       h_cl3d_energy_->Fill(cl3d_itr->energy());
       h_cl3d_eta_->Fill(cl3d_itr->eta());
@@ -251,7 +251,7 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
       h_cl3d_quality_->Fill(cl3d_itr->hwQual());
     }
   }
-  h_cl3d_n_->Fill(cl3d_n_);
+  h_cl3d_n_->Fill(cl3d_n);
 
   // retrieve towers
   edm::Handle<l1t::HGCalTowerBxCollection> towers_h;
@@ -260,7 +260,7 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
 
   if (towers_h.isValid()){
     for(auto tower_itr=towers.begin(0); tower_itr!=towers.end(0); tower_itr++){   
-      tower_n_++;
+      tower_n++;
       h_tower_pt_->Fill(tower_itr->pt());
       h_tower_energy_->Fill(tower_itr->energy());
       h_tower_eta_->Fill(tower_itr->eta());
@@ -271,7 +271,7 @@ void HGCalTriggerValidator::analyze(const edm::Event& iEvent, const edm::EventSe
       h_tower_iPhi_->Fill(tower_itr->id().iPhi());
     }
   }
-  h_tower_n_->Fill(tower_n_);
+  h_tower_n_->Fill(tower_n);
 
 }
 
